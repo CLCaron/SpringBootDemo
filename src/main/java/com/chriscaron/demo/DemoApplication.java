@@ -1,6 +1,5 @@
 package com.chriscaron.demo;
 
-import com.chriscaron.demo.student.Student;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
