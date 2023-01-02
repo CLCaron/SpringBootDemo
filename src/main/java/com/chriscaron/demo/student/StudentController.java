@@ -1,8 +1,11 @@
 package com.chriscaron.demo.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -22,8 +25,16 @@ public class StudentController {
     }
 
     @PostMapping
-    public void registerNewStudent(@RequestBody Student student) {
-        studentService.addNewStudent(student);
+    public ResponseEntity<Void> addNewStudent(@RequestBody Student newStudent) {
+        Student student = studentService.addNewStudent(newStudent);
+
+        if (student == null) {
+            return ResponseEntity.noContent().build();
+        }
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(student.getId()).toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping(path = "{studentId}")
